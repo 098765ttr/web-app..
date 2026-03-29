@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - KYC Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="responsive.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="image2.png" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #1a1a2e;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-btn span {
+            font-size: 20px;
+        }
+
+        /* KYC Status Banner */
+        .kyc-status-banner {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .kyc-status-banner.show {
+            display: block;
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .status-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .status-icon.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-icon.approved {
+            background: #d4edda;
+            color: #28a745;
+        }
+
+        .status-icon.rejected {
+            background: #f8d7da;
+            color: #dc3545;
+        }
+
+        .status-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .status-info p {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .status-reason {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        /* KYC Card */
+        .kyc-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .kyc-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .kyc-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 36px;
+        }
+
+        .kyc-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .kyc-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        /* Verification Options */
+        .verification-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .verification-option {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-decoration: none;
+        }
+
+        .verification-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .verification-option.completed {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .verification-option.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .option-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .option-desc {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .option-status {
+            font-size: 20px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .submit-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Selfie Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        /* Camera Section */
+        .camera-section {
+            margin-bottom: 20px;
+        }
+
+        .camera-preview {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #1a1a2e;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        .captured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .camera-instructions {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .instruction-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .instruction-list li {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .instruction-list li::before {
+            content: '•';
+            position: absolute;
+            left: 5px;
+            color: #667eea;
+        }
+
+        .camera-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .camera-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .capture-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .retake-btn {
+            background: #f8f9fa;
+            color: #1a1a2e;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+            color: white;
+        }
+
+        .close-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .camera-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .camera-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Review Section */
+        .review-section {
+            display: none;
+        }
+
+        .review-section.show {
+            display: block;
+        }
+
+        .review-image {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .review-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Validation Error */
+        .validation-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .validation-error.show {
+            display: block;
+        }
+
+        .error-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #721c24;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .error-list li {
+            font-size: 12px;
+            color: #721c24;
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .error-list li::before {
+            content: '✗';
+            position: absolute;
+            left: 5px;
+            color: #dc3545;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px !important;
+            }
+
+            .camera-buttons, .review-buttons {
+                flex-direction: column !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px !important;
+            }
+            
+            .page-title {
+                font-size: 22px !important;
+            }
+            
+            .kyc-status-banner {
+                padding: 15px !important;
+                border-radius: 15px !important;
+            }
+            
+            .status-icon {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 20px !important;
+            }
+            
+            .status-info h3 {
+                font-size: 16px !important;
+            }
+            
+            .status-info p {
+                font-size: 12px !important;
+            }
+            
+            .status-reason {
+                font-size: 12px !important;
+            }
+            
+            .kyc-card {
+                padding: 20px !important;
+                border-radius: 20px !important;
+            }
+            
+            .kyc-icon {
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 30px !important;
+            }
+            
+            .kyc-title {
+                font-size: 20px !important;
+            }
+            
+            .kyc-subtitle {
+                font-size: 14px !important;
+            }
+            
+            .verification-option {
+                padding: 15px !important;
+            }
+            
+            .option-icon {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 20px !important;
+            }
+            
+            .option-title {
+                font-size: 14px !important;
+            }
+            
+            .option-desc {
+                font-size: 12px !important;
+            }
+            
+            .submit-btn {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+            
+            .modal-content {
+                padding: 20px !important;
+                border-radius: 20px !important;
+            }
+            
+            .modal-title {
+                font-size: 18px !important;
+            }
+            
+            .modal-subtitle {
+                font-size: 13px !important;
+            }
+            
+            .camera-container {
+                padding: 15px !important;
+            }
+            
+            .camera-btn {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .main-content {
+                padding: 12px !important;
+            }
+            
+            .page-title {
+                font-size: 20px !important;
+            }
+            
+            .kyc-status-banner {
+                padding: 12px !important;
+                border-radius: 12px !important;
+            }
+            
+            .status-icon {
+                width: 35px !important;
+                height: 35px !important;
+                font-size: 18px !important;
+            }
+            
+            .status-info h3 {
+                font-size: 14px !important;
+            }
+            
+            .status-info p {
+                font-size: 11px !important;
+            }
+            
+            .status-reason {
+                font-size: 11px !important;
+            }
+            
+            .kyc-card {
+                padding: 15px !important;
+                border-radius: 15px !important;
+            }
+            
+            .kyc-icon {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 25px !important;
+            }
+            
+            .kyc-title {
+                font-size: 18px !important;
+            }
+            
+            .kyc-subtitle {
+                font-size: 12px !important;
+            }
+            
+            .verification-option {
+                padding: 12px !important;
+            }
+            
+            .option-icon {
+                width: 35px !important;
+                height: 35px !important;
+                font-size: 18px !important;
+            }
+            
+            .option-title {
+                font-size: 13px !important;
+            }
+            
+            .option-desc {
+                font-size: 11px !important;
+            }
+            
+            .submit-btn {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+            
+            .modal-content {
+                padding: 15px !important;
+                border-radius: 15px !important;
+            }
+            
+            .modal-title {
+                font-size: 16px !important;
+            }
+            
+            .modal-subtitle {
+                font-size: 12px !important;
+            }
+            
+            .camera-container {
+                padding: 12px !important;
+            }
+            
+            .camera-btn {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <a href="profile.html" class="back-btn">
+                <span>←</span>
+            </a>
+            <h1 class="page-title">KYC Verification</h1>
+            <div style="width: 45px;"></div>
+        </div>
+
+        <!-- KYC Status Banner -->
+        <div class="kyc-status-banner" id="kycStatusBanner">
+            <div class="status-header">
+                <div class="status-icon" id="statusIcon">⏳</div>
+                <div class="status-info">
+                    <h3 id="statusTitle">KYC Pending</h3>
+                    <p id="statusSubtitle">Your KYC is under review</p>
+                </div>
+            </div>
+            <div class="status-reason" id="statusReason">
+                Please wait for admin approval. This usually takes 24-48 hours.
+            </div>
+        </div>
+
+        <!-- KYC Card -->
+        <div class="kyc-card">
+            <div class="kyc-header">
+                <div class="kyc-icon">🔐</div>
+                <h2 class="kyc-title">Complete Your KYC</h2>
+                <p class="kyc-subtitle">Verify your identity to unlock all features</p>
+            </div>
+            
+            <div class="verification-options">
+                <a href="detail.html" class="verification-option" id="detailOption">
+                    <div class="option-icon">📝</div>
+                    <div class="option-content">
+                        <div class="option-title">Personal Details</div>
+                        <div class="option-desc">Enter your personal information</div>
+                    </div>
+                    <div class="option-status" id="detailStatus">→</div>
+                </a>
+                
+                <a href="document.html" class="verification-option" id="documentOption">
+                    <div class="option-icon">📄</div>
+                    <div class="option-content">
+                        <div class="option-title">Document Upload</div>
+                        <div class="option-desc">Upload your ID document</div>
+                    </div>
+                    <div class="option-status" id="documentStatus">→</div>
+                </a>
+                
+                <div class="verification-option" id="selfieOption" onclick="openSelfieModal()" style="display: none;">
+                    <div class="option-icon">📸</div>
+                    <div class="option-content">
+                        <div class="option-title">Selfie Verification</div>
+                        <div class="option-desc">Take a clear selfie for verification</div>
+                    </div>
+                    <div class="option-status" id="selfieStatus">→</div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" id="submitBtn" disabled>
+                <span>✓</span> Submit KYC
+            </button>
+        </div>
+    </div>
+
+    <!-- Selfie Modal -->
+    <div class="modal" id="selfieModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📸 Selfie Verification</h3>
+                <p class="modal-subtitle">Take a clear selfie for verification</p>
+            </div>
+            
+            <!-- Camera Section -->
+            <div class="camera-section" id="cameraSection">
+                <div class="camera-preview">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas"></canvas>
+                    <img id="capturedImage" class="captured-image" alt="Captured Selfie">
+                </div>
+                
+                <div class="camera-instructions">
+                    <div class="instruction-title">📸 Selfie Verification</div>
+                    <ul class="instruction-list">
+                        <li>Upload a clear selfie</li>
+                        <li>Face must be clearly visible</li>
+                        <li>Do not use any filters</li>
+                        <li>Blurry or dark images will not be accepted</li>
+                    </ul>
+                    <p style="font-size: 12px; color: #28a745; margin-top: 10px; font-weight: 600;">
+                        ✅ Selfie is required for simple verification
+                    </p>
+                </div>
+                
+                <div class="camera-buttons">
+                    <button class="camera-btn capture-btn" id="captureBtn" onclick="captureSelfie()">
+                        <span>📷</span> Capture
+                    </button>
+                    <button class="camera-btn close-btn" onclick="closeSelfieModal()">
+                        <span>✕</span> Close
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Review Section -->
+            <div class="review-section" id="reviewSection">
+                <img id="reviewImage" class="review-image" alt="Review Selfie">
+                
+                <div class="validation-error" id="validationError">
+                    <div class="error-title">❌ Selfie Requirements Not Met</div>
+                    <ul class="error-list" id="errorList">
+                        <!-- Errors will be added here -->
+                    </ul>
+                </div>
+                
+                <div class="review-buttons">
+                    <button class="camera-btn retake-btn" onclick="retakeSelfie()">
+                        <span>🔄</span> Retake
+                    </button>
+                    <button class="camera-btn upload-btn" onclick="uploadSelfie()">
+                        <span>📤</span> Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">✓</div>
+        <span class="notification-text">Notification</span>
+    </div>
+
+    <script>
+        let stream = null;
+        let capturedImageData = null;
+        let selfieRequired = false; // Set to true if selfie is required for KYC
+
+        // Check KYC status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show selfie option only if required
+            if (selfieRequired) {
+                document.getElementById('selfieOption').style.display = 'flex';
+            }
+            checkKYCStatus();
+        });
+
+        // Check KYC completion status
+        function checkKYCStatus() {
+            const kycStatus = localStorage.getItem('kyc_status') || 'not_submitted';
+            const detailCompleted = localStorage.getItem('kyc_detail_completed') === 'true';
+            const documentCompleted = localStorage.getItem('kyc_document_completed') === 'true';
+            const selfieCompleted = localStorage.getItem('kyc_selfie_completed') === 'true';
+
+            // Show status banner if KYC is submitted
+            if (kycStatus !== 'not_submitted') {
+                const statusBanner = document.getElementById('kycStatusBanner');
+                const statusIcon = document.getElementById('statusIcon');
+                const statusTitle = document.getElementById('statusTitle');
+                const statusSubtitle = document.getElementById('statusSubtitle');
+                const statusReason = document.getElementById('statusReason');
+
+                statusBanner.classList.add('show');
+
+                if (kycStatus === 'pending') {
+                    statusIcon.className = 'status-icon pending';
+                    statusIcon.textContent = '⏳';
+                    statusTitle.textContent = 'KYC Pending';
+                    statusSubtitle.textContent = 'Your KYC is under review';
+                    statusReason.textContent = 'Please wait for admin approval. This usually takes 24-48 hours.';
+                } else if (kycStatus === 'approved') {
+                    statusIcon.className = 'status-icon approved';
+                    statusIcon.textContent = '✓';
+                    statusTitle.textContent = 'KYC Approved';
+                    statusSubtitle.textContent = 'Your KYC has been approved';
+                    statusReason.textContent = 'Congratulations! You can now use all features including send functionality.';
+                } else if (kycStatus === 'rejected') {
+                    statusIcon.className = 'status-icon rejected';
+                    statusIcon.textContent = '✗';
+                    statusTitle.textContent = 'KYC Rejected';
+                    statusSubtitle.textContent = 'Your KYC has been rejected';
+                    statusReason.textContent = localStorage.getItem('kyc_rejection_reason') || 'Please contact support for more information.';
+                }
+
+                // Lock all options if KYC is submitted
+                if (kycStatus === 'pending' || kycStatus === 'approved' || kycStatus === 'rejected') {
+                    document.getElementById('detailOption').classList.add('locked');
+                    document.getElementById('documentOption').classList.add('locked');
+                    document.getElementById('selfieOption').classList.add('locked');
+                    document.getElementById('submitBtn').disabled = true;
+                    document.getElementById('submitBtn').textContent = 'KYC Submitted';
+                }
+            } else {
+                // Update status indicators for incomplete steps
+                if (detailCompleted) {
+                    document.getElementById('detailOption').classList.add('completed');
+                    document.getElementById('detailStatus').textContent = '✓';
+                }
+
+                if (documentCompleted) {
+                    document.getElementById('documentOption').classList.add('completed');
+                    document.getElementById('documentStatus').textContent = '✓';
+                }
+
+                if (selfieCompleted) {
+                    document.getElementById('selfieOption').classList.add('completed');
+                    document.getElementById('selfieStatus').textContent = '✓';
+                }
+
+                // Enable submit button if all completed
+                const submitBtn = document.getElementById('submitBtn');
+                const selfieRequiredForKYC = selfieRequired;
+                if (detailCompleted && documentCompleted && (!selfieRequiredForKYC || selfieCompleted)) {
+                    submitBtn.disabled = false;
+                } else {
+                    submitBtn.disabled = true;
+                }
+            }
+        }
+
+        // Open selfie modal
+        function openSelfieModal() {
+            const kycStatus = localStorage.getItem('kyc_status') || 'not_submitted';
+            if (kycStatus !== 'not_submitted') {
+                showNotification('KYC already submitted');
+                return;
+            }
+            
+            const modal = document.getElementById('selfieModal');
+            modal.classList.add('show');
+            startCamera();
+        }
+
+        // Close selfie modal
+        function closeSelfieModal() {
+            const modal = document.getElementById('selfieModal');
+            modal.classList.remove('show');
+            stopCamera();
+            resetCameraUI();
+        }
+
+        // Start camera
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                });
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                showNotification('Camera access denied. Please allow camera permissions.');
+            }
+        }
+
+        // Stop camera
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+        }
+
+        // Capture selfie
+        function captureSelfie() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const capturedImage = document.getElementById('capturedImage');
+            const reviewImage = document.getElementById('reviewImage');
+            
+            // Set canvas dimensions
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Draw video frame to canvas
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Get image data
+            capturedImageData = canvas.toDataURL('image/jpeg');
+            
+            // Show captured image
+            capturedImage.src = capturedImageData;
+            capturedImage.style.display = 'block';
+            video.style.display = 'none';
+            
+            // Show review section
+            document.getElementById('cameraSection').style.display = 'none';
+            document.getElementById('reviewSection').classList.add('show');
+            reviewImage.src = capturedImageData;
+            
+            // Validate selfie
+            validateSelfie();
+            
+            // Stop camera
+            stopCamera();
+        }
+
+        // Validate selfie requirements
+        function validateSelfie() {
+            const errors = [];
+            
+            // Simulate validation checks
+            const random = Math.random();
+            
+            if (random < 0.3) {
+                errors.push('Face is not clearly visible');
+            }
+            
+            if (random < 0.5) {
+                errors.push('Image is blurry');
+            }
+            
+            if (random < 0.7) {
+                errors.push('Lighting is not adequate');
+            }
+            
+            // Show validation errors if any
+            const validationError = document.getElementById('validationError');
+            const errorList = document.getElementById('errorList');
+            
+            if (errors.length > 0) {
+                errorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+                validationError.classList.add('show');
+                return false;
+            } else {
+                validationError.classList.remove('show');
+                return true;
+            }
+        }
+
+        // Retake selfie
+        function retakeSelfie() {
+            // Hide review section
+            document.getElementById('reviewSection').classList.remove('show');
+            document.getElementById('cameraSection').style.display = 'block';
+            
+            // Reset captured image
+            document.getElementById('capturedImage').style.display = 'none';
+            document.getElementById('video').style.display = 'block';
+            
+            // Hide validation error
+            document.getElementById('validationError').classList.remove('show');
+            
+            // Restart camera
+            startCamera();
+        }
+
+        // Upload selfie
+        function uploadSelfie() {
+            // Validate selfie before uploading
+            if (!validateSelfie()) {
+                showNotification('Please retake selfie according to requirements');
+                return;
+            }
+            
+            // Mark selfie as completed
+            localStorage.setItem('kyc_selfie_completed', 'true');
+            
+            // Close modal
+            closeSelfieModal();
+            
+            // Update status
+            checkKYCStatus();
+            
+            // Show notification
+            showNotification('Selfie uploaded successfully!');
+        }
+
+        // Reset camera UI
+        function resetCameraUI() {
+            document.getElementById('cameraSection').style.display = 'block';
+            document.getElementById('reviewSection').classList.remove('show');
+            document.getElementById('capturedImage').style.display = 'none';
+            document.getElementById('video').style.display = 'block';
+            document.getElementById('validationError').classList.remove('show');
+        }
+
+        // Submit KYC
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            if (!this.disabled) {
+                // Check if all steps are completed
+                const detailCompleted = localStorage.getItem('kyc_detail_completed') === 'true';
+                const documentCompleted = localStorage.getItem('kyc_document_completed') === 'true';
+                const selfieCompleted = localStorage.getItem('kyc_selfie_completed') === 'true';
+                
+                // Check if selfie is required
+                const selfieRequiredForKYC = selfieRequired;
+                
+                if (detailCompleted && documentCompleted && (!selfieRequiredForKYC || selfieCompleted)) {
+                    // Mark KYC as pending
+                    localStorage.setItem('kyc_status', 'pending');
+                    
+                    // Show success notification
+                    showNotification('KYC submitted successfully! Awaiting approval.');
+                    
+                    // Update status
+                    checkKYCStatus();
+                } else {
+                    showNotification('Please complete all verification steps first.');
+                }
+            }
+        });
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.querySelector('.notification-text').textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('selfieModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSelfieModal();
+            }
+        });
+    </script>
+    <script src="internet-check.js"></script>
+</body>
+</html>

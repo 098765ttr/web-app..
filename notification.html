@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexora - Notifications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="image2.png" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            color: #1a1a2e;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-btn span {
+            font-size: 18px;
+        }
+
+        /* Notification Card */
+        .notification-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .notification-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .notification-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 28px;
+        }
+
+        .notification-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .notification-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        /* Notification List */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .notification-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .notification-item.unread {
+            border-left-color: #667eea;
+            background: #f0f0ff;
+        }
+
+        .notification-item-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .notification-item-icon.success {
+            background: #d4edda;
+            color: #28a745;
+        }
+
+        .notification-item-icon.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .notification-item-icon.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .notification-item-icon.error {
+            background: #f8d7da;
+            color: #dc3545;
+        }
+
+        .notification-item-content {
+            flex: 1;
+        }
+
+        .notification-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .notification-item-message {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .notification-item-time {
+            font-size: 11px;
+            color: #adb5bd;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .back-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .back-btn span {
+                font-size: 16px;
+            }
+
+            .notification-card {
+                padding: 15px;
+                border-radius: 15px;
+            }
+
+            .notification-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .notification-title {
+                font-size: 18px;
+            }
+
+            .notification-item {
+                padding: 12px;
+            }
+
+            .notification-item-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 10px;
+            }
+
+            .page-title {
+                font-size: 18px;
+            }
+
+            .back-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .back-btn span {
+                font-size: 14px;
+            }
+
+            .notification-card {
+                padding: 12px;
+            }
+
+            .notification-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .notification-title {
+                font-size: 16px;
+            }
+
+            .notification-subtitle {
+                font-size: 12px;
+            }
+
+            .notification-item {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .notification-item-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .notification-item-title {
+                font-size: 13px;
+            }
+
+            .notification-item-message {
+                font-size: 11px;
+            }
+
+            .notification-item-time {
+                font-size: 10px;
+            }
+        }
+
+        /* Tablet and Desktop */
+        @media (min-width: 769px) {
+            .main-content {
+                padding: 30px;
+                max-width: 600px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .back-btn {
+                width: 45px;
+                height: 45px;
+            }
+
+            .back-btn span {
+                font-size: 20px;
+            }
+
+            .notification-card {
+                padding: 30px;
+                border-radius: 25px;
+            }
+
+            .notification-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 36px;
+            }
+
+            .notification-title {
+                font-size: 24px;
+            }
+
+            .notification-item {
+                padding: 20px;
+            }
+
+            .notification-item-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .notification-item-title {
+                font-size: 16px;
+            }
+
+            .notification-item-message {
+                font-size: 14px;
+            }
+
+            .notification-item-time {
+                font-size: 12px;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1024px) {
+            .main-content {
+                max-width: 700px;
+            }
+        }
+
+        /* Extra large screens */
+        @media (min-width: 1200px) {
+            .main-content {
+                max-width: 800px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <a href="home.html" class="back-btn">
+                <span>←</span>
+            </a>
+            <h1 class="page-title">Notifications</h1>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <!-- Notification Card -->
+        <div class="notification-card">
+            <div class="notification-header">
+                <div class="notification-icon">🔔</div>
+                <h2 class="notification-title">All Notifications</h2>
+                <p class="notification-subtitle">Your recent notifications</p>
+            </div>
+            
+            <div class="notification-list" id="notificationList">
+                <!-- Notifications will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample notifications data
+        let notifications = [
+            { id: 1, type: 'success', title: 'KYC Approved', message: 'Your KYC verification has been approved', time: '2 hours ago', read: false },
+            { id: 2, type: 'info', title: 'New Feature', message: 'Check out our new send feature', time: '5 hours ago', read: false },
+            { id: 3, type: 'warning', title: 'Security Alert', message: 'New login detected from Chrome browser', time: '1 day ago', read: true },
+            { id: 4, type: 'success', title: 'Payment Received', message: 'You received 100 NRC from NXC4yLm7Qw8Rz6XvP2nJwTfHdGcBn5M', time: '2 days ago', read: true },
+            { id: 5, type: 'error', title: 'Transaction Failed', message: 'Your transaction of 50 NRC failed due to insufficient balance', time: '3 days ago', read: true }
+        ];
+
+        // Load notifications from localStorage
+        function loadNotifications() {
+            const savedNotifications = localStorage.getItem('nexoraNotifications');
+            if (savedNotifications) {
+                notifications = JSON.parse(savedNotifications);
+            }
+            
+            renderNotifications();
+        }
+
+        // Save notifications to localStorage
+        function saveNotifications() {
+            localStorage.setItem('nexoraNotifications', JSON.stringify(notifications));
+        }
+
+        // Render notifications
+        function renderNotifications() {
+            const notificationList = document.getElementById('notificationList');
+            
+            if (notifications.length === 0) {
+                notificationList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔔</div>
+                        <div class="empty-text">No notifications yet</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            notificationList.innerHTML = notifications.map(notification => `
+                <div class="notification-item ${notification.read ? '' : 'unread'}" onclick="markAsRead(${notification.id})">
+                    <div class="notification-item-icon ${notification.type}">
+                        ${notification.type === 'success' ? '✓' : notification.type === 'warning' ? '⚠' : notification.type === 'error' ? '✗' : 'ℹ'}
+                    </div>
+                    <div class="notification-item-content">
+                        <div class="notification-item-title">${notification.title}</div>
+                        <div class="notification-item-message">${notification.message}</div>
+                        <div class="notification-item-time">${notification.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Mark notification as read
+        function markAsRead(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.read = true;
+                saveNotifications();
+                renderNotifications();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotifications();
+        });
+    </script>
+</body>
+</html>

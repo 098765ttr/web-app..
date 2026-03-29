@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Document Upload</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="responsive.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="image2.png" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #1a1a2e;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-btn span {
+            font-size: 20px;
+        }
+
+        /* Document Card */
+        .document-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .document-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .document-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 36px;
+        }
+
+        .document-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .document-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #495057;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #495057;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-wrapper input::placeholder {
+            color: #adb5bd;
+        }
+
+        .upload-section {
+            margin-bottom: 25px;
+        }
+
+        .upload-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .upload-area {
+            border: 2px dashed #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f0f0ff;
+        }
+
+        .upload-area.has-file {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 12px;
+            color: #adb5bd;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-preview {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .file-preview.show {
+            display: block;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .file-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .instruction-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .instruction-list li {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .instruction-list li::before {
+            content: '•';
+            position: absolute;
+            left: 5px;
+            color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .submit-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px !important;
+            }
+            
+            .page-title {
+                font-size: 22px !important;
+            }
+            
+            .document-card {
+                padding: 20px !important;
+                border-radius: 20px !important;
+            }
+            
+            .document-icon {
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 30px !important;
+            }
+            
+            .document-title {
+                font-size: 20px !important;
+            }
+            
+            .document-subtitle {
+                font-size: 14px !important;
+            }
+            
+            .input-group {
+                margin-bottom: 15px !important;
+            }
+            
+            .input-group label {
+                font-size: 12px !important;
+            }
+            
+            .input-wrapper input,
+            .input-wrapper select {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+            
+            .upload-section {
+                margin-bottom: 15px !important;
+            }
+            
+            .upload-label {
+                font-size: 12px !important;
+            }
+            
+            .upload-area {
+                padding: 20px !important;
+            }
+            
+            .upload-icon {
+                font-size: 30px !important;
+            }
+            
+            .upload-text {
+                font-size: 14px !important;
+            }
+            
+            .upload-hint {
+                font-size: 12px !important;
+            }
+            
+            .file-preview {
+                padding: 12px !important;
+            }
+            
+            .file-name {
+                font-size: 12px !important;
+            }
+            
+            .file-size {
+                font-size: 11px !important;
+            }
+            
+            .remove-btn {
+                padding: 6px 10px !important;
+                font-size: 11px !important;
+            }
+            
+            .submit-btn {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .main-content {
+                padding: 12px !important;
+            }
+            
+            .page-title {
+                font-size: 20px !important;
+            }
+            
+            .document-card {
+                padding: 15px !important;
+                border-radius: 15px !important;
+            }
+            
+            .document-icon {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 25px !important;
+            }
+            
+            .document-title {
+                font-size: 18px !important;
+            }
+            
+            .document-subtitle {
+                font-size: 12px !important;
+            }
+            
+            .input-group {
+                margin-bottom: 12px !important;
+            }
+            
+            .input-group label {
+                font-size: 11px !important;
+            }
+            
+            .input-wrapper input,
+            .input-wrapper select {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+            
+            .upload-section {
+                margin-bottom: 12px !important;
+            }
+            
+            .upload-label {
+                font-size: 11px !important;
+            }
+            
+            .upload-area {
+                padding: 15px !important;
+            }
+            
+            .upload-icon {
+                font-size: 25px !important;
+            }
+            
+            .upload-text {
+                font-size: 13px !important;
+            }
+            
+            .upload-hint {
+                font-size: 11px !important;
+            }
+            
+            .file-preview {
+                padding: 10px !important;
+            }
+            
+            .file-name {
+                font-size: 11px !important;
+            }
+            
+            .file-size {
+                font-size: 10px !important;
+            }
+            
+            .remove-btn {
+                padding: 5px 8px !important;
+                font-size: 10px !important;
+            }
+            
+            .submit-btn {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <a href="kyc.html" class="back-btn">
+                <span>←</span>
+            </a>
+            <h1 class="page-title">Document Upload</h1>
+            <div style="width: 45px;"></div>
+        </div>
+
+        <!-- Document Card -->
+        <div class="document-card">
+            <div class="document-header">
+                <div class="document-icon">📄</div>
+                <h2 class="document-title">Upload Document</h2>
+                <p class="document-subtitle">Upload your ID document for verification</p>
+            </div>
+            
+            <form id="documentForm">
+                <div class="input-group">
+                    <label for="documentType">Select Document Type</label>
+                    <div class="input-wrapper">
+                        <select id="documentType" required onchange="handleDocumentTypeChange()">
+                            <option value="">Select Document Type</option>
+                            <option value="CNIC">CNIC</option>
+                            <option value="Passport">Passport</option>
+                            <option value="Driving License">Driving License</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="idNumber">ID Number</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="idNumber" placeholder="Enter your ID number" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="issueDate">Issue Date</label>
+                    <div class="input-wrapper">
+                        <input type="date" id="issueDate" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="expiryDate">Expiry Date</label>
+                    <div class="input-wrapper">
+                        <input type="date" id="expiryDate" required>
+                    </div>
+                </div>
+                
+                <div class="upload-section">
+                    <label class="upload-label">1️⃣ Front Side Image</label>
+                    <div class="upload-area" id="frontUploadArea" onclick="document.getElementById('frontFile').click()">
+                        <div class="upload-icon">📤</div>
+                        <div class="upload-text">Click to upload front side</div>
+                        <div class="upload-hint">PNG, JPG or PDF (Max 5MB)</div>
+                    </div>
+                    <input type="file" id="frontFile" class="file-input" accept=".png,.jpg,.jpeg,.pdf" onchange="handleFileSelect(this, 'front')">
+                    <div class="file-preview" id="frontPreview">
+                        <div class="file-info">
+                            <div class="file-icon">📄</div>
+                            <div class="file-details">
+                                <div class="file-name" id="frontFileName">-</div>
+                                <div class="file-size" id="frontFileSize">-</div>
+                            </div>
+                            <button type="button" class="remove-btn" onclick="removeFile('front')">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="upload-section" id="backUploadSection">
+                    <label class="upload-label">2️⃣ Back Side Image</label>
+                    <div class="upload-area" id="backUploadArea" onclick="document.getElementById('backFile').click()">
+                        <div class="upload-icon">📤</div>
+                        <div class="upload-text">Click to upload back side</div>
+                        <div class="upload-hint">PNG, JPG or PDF (Max 5MB)</div>
+                    </div>
+                    <input type="file" id="backFile" class="file-input" accept=".png,.jpg,.jpeg,.pdf" onchange="handleFileSelect(this, 'back')">
+                    <div class="file-preview" id="backPreview">
+                        <div class="file-info">
+                            <div class="file-icon">📄</div>
+                            <div class="file-details">
+                                <div class="file-name" id="backFileName">-</div>
+                                <div class="file-size" id="backFileSize">-</div>
+                            </div>
+                            <button type="button" class="remove-btn" onclick="removeFile('back')">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <div class="instruction-title">3️⃣ Clear Details</div>
+                    <ul class="instruction-list">
+                        <li>Name readable ho</li>
+                        <li>Number visible ho</li>
+                        <li>Blur na ho</li>
+                    </ul>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                    <span>✓</span> Save Document
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">✓</div>
+        <span class="notification-text">Document Saved Successfully</span>
+    </div>
+
+    <script>
+        let frontFile = null;
+        let backFile = null;
+
+        // Handle document type change
+        function handleDocumentTypeChange() {
+            const documentType = document.getElementById('documentType').value;
+            const backUploadSection = document.getElementById('backUploadSection');
+            
+            // Hide back upload section for Passport
+            if (documentType === 'Passport') {
+                backUploadSection.style.display = 'none';
+                backFile = null;
+                document.getElementById('backFile').value = '';
+                document.getElementById('backPreview').classList.remove('show');
+                document.getElementById('backUploadArea').classList.remove('has-file');
+            } else {
+                backUploadSection.style.display = 'block';
+            }
+            
+            checkFormValidity();
+        }
+
+        // Handle file selection
+        function handleFileSelect(input, type) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('File size must be less than 5MB');
+                input.value = '';
+                return;
+            }
+
+            // Store file
+            if (type === 'front') {
+                frontFile = file;
+                document.getElementById('frontFileName').textContent = file.name;
+                document.getElementById('frontFileSize').textContent = formatFileSize(file.size);
+                document.getElementById('frontPreview').classList.add('show');
+                document.getElementById('frontUploadArea').classList.add('has-file');
+            } else {
+                backFile = file;
+                document.getElementById('backFileName').textContent = file.name;
+                document.getElementById('backFileSize').textContent = formatFileSize(file.size);
+                document.getElementById('backPreview').classList.add('show');
+                document.getElementById('backUploadArea').classList.add('has-file');
+            }
+
+            checkFormValidity();
+        }
+
+        // Remove file
+        function removeFile(type) {
+            if (type === 'front') {
+                frontFile = null;
+                document.getElementById('frontFile').value = '';
+                document.getElementById('frontPreview').classList.remove('show');
+                document.getElementById('frontUploadArea').classList.remove('has-file');
+            } else {
+                backFile = null;
+                document.getElementById('backFile').value = '';
+                document.getElementById('backPreview').classList.remove('show');
+                document.getElementById('backUploadArea').classList.remove('has-file');
+            }
+
+            checkFormValidity();
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Check form validity
+        function checkFormValidity() {
+            const documentType = document.getElementById('documentType').value;
+            const idNumber = document.getElementById('idNumber').value;
+            const issueDate = document.getElementById('issueDate').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            
+            let isValid = documentType && idNumber && issueDate && expiryDate && frontFile;
+            
+            // For CNIC and Driving License, back file is also required
+            if (documentType === 'CNIC' || documentType === 'Driving License') {
+                isValid = isValid && backFile;
+            }
+            
+            document.getElementById('submitBtn').disabled = !isValid;
+        }
+
+        // Add input event listeners
+        document.getElementById('documentType').addEventListener('change', checkFormValidity);
+        document.getElementById('idNumber').addEventListener('input', checkFormValidity);
+        document.getElementById('issueDate').addEventListener('change', checkFormValidity);
+        document.getElementById('expiryDate').addEventListener('change', checkFormValidity);
+
+        // Handle form submission
+        document.getElementById('documentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const documentType = document.getElementById('documentType').value;
+            const idNumber = document.getElementById('idNumber').value;
+            const issueDate = document.getElementById('issueDate').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            
+            if (!frontFile) {
+                showNotification('Please upload front side of your document');
+                return;
+            }
+            
+            if ((documentType === 'CNIC' || documentType === 'Driving License') && !backFile) {
+                showNotification('Please upload back side of your document');
+                return;
+            }
+
+            // Save document data
+            const documentData = {
+                documentType: documentType,
+                idNumber: idNumber,
+                issueDate: issueDate,
+                expiryDate: expiryDate,
+                frontFile: frontFile.name,
+                backFile: backFile ? backFile.name : null
+            };
+            
+            localStorage.setItem('kyc_document', JSON.stringify(documentData));
+            localStorage.setItem('kyc_document_completed', 'true');
+            
+            // Show notification
+            showNotification('Document Saved Successfully');
+            
+            // Redirect to KYC page after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'kyc.html';
+            }, 2000);
+        });
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.querySelector('.notification-text').textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+    <script src="internet-check.js"></script>
+</body>
+</html>

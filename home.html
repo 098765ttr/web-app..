@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="responsive.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="image2.png" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #a0a0a0;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-text {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #1a1a2e;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .notification-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .notification-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .notification-icon span {
+            font-size: 20px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            background: #dc3545;
+            border-radius: 50%;
+            font-size: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Mining Card */
+        .mining-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 25px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mining-card::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
+        }
+
+        .mining-card::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -30px;
+            left: -30px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .balance-section {
+            z-index: 1;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .balance-unit {
+            font-size: 18px;
+            color: #a0a0a0;
+        }
+
+        .mining-ratio {
+            text-align: right;
+            z-index: 1;
+        }
+
+        .ratio-label {
+            font-size: 12px;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+
+        .ratio-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4caf50;
+        }
+
+        .timer-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            z-index: 1;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .timer-label {
+            font-size: 12px;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+
+        .timer-value {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .mining-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .mining-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .mining-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .mining-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .mining-btn:disabled {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .mining-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .mining-status {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #a0a0a0;
+            z-index: 1;
+        }
+
+        .mining-status.active {
+            color: #4caf50;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .stat-time {
+            font-size: 10px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px !important;
+            }
+
+            .nav-text {
+                display: block !important;
+                font-size: 8px !important;
+            }
+
+            .main-content {
+                padding: 20px !important;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .balance-amount {
+                font-size: 28px !important;
+            }
+
+            .timer-value {
+                font-size: 24px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                flex-direction: column !important;
+            }
+            
+            .sidebar {
+                width: 100% !important;
+                flex-direction: row !important;
+                padding: 10px 0 !important;
+                gap: 15px !important;
+                justify-content: center !important;
+            }
+            
+            .logo {
+                width: 40px !important;
+                height: 40px !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .nav-item {
+                padding: 8px !important;
+            }
+            
+            .nav-icon {
+                font-size: 20px !important;
+            }
+            
+            .main-content {
+                padding: 15px !important;
+            }
+            
+            .page-title {
+                font-size: 22px !important;
+            }
+            
+            .mining-card {
+                padding: 20px !important;
+                border-radius: 20px !important;
+            }
+            
+            .balance-amount {
+                font-size: 24px !important;
+            }
+            
+            .balance-unit {
+                font-size: 14px !important;
+            }
+            
+            .ratio-value {
+                font-size: 14px !important;
+            }
+            
+            .timer {
+                padding: 12px 20px !important;
+            }
+            
+            .timer-value {
+                font-size: 20px !important;
+            }
+            
+            .mining-btn {
+                padding: 14px !important;
+                font-size: 14px !important;
+            }
+            
+            .stat-card {
+                padding: 15px !important;
+            }
+            
+            .stat-icon {
+                width: 35px !important;
+                height: 35px !important;
+                font-size: 16px !important;
+            }
+            
+            .stat-value {
+                font-size: 18px !important;
+            }
+            
+            .notification {
+                top: 10px !important;
+                right: 10px !important;
+                left: 10px !important;
+                padding: 12px 16px !important;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .sidebar {
+                gap: 10px !important;
+                padding: 8px 0 !important;
+            }
+            
+            .logo {
+                width: 35px !important;
+                height: 35px !important;
+            }
+            
+            .nav-icon {
+                font-size: 18px !important;
+            }
+            
+            .main-content {
+                padding: 12px !important;
+            }
+            
+            .page-title {
+                font-size: 20px !important;
+            }
+            
+            .mining-card {
+                padding: 15px !important;
+                border-radius: 15px !important;
+            }
+            
+            .balance-amount {
+                font-size: 22px !important;
+            }
+            
+            .balance-unit {
+                font-size: 12px !important;
+            }
+            
+            .ratio-value {
+                font-size: 12px !important;
+            }
+            
+            .timer {
+                padding: 10px 15px !important;
+            }
+            
+            .timer-value {
+                font-size: 18px !important;
+            }
+            
+            .mining-btn {
+                padding: 12px !important;
+                font-size: 13px !important;
+            }
+            
+            .stat-card {
+                padding: 12px !important;
+            }
+            
+            .stat-icon {
+                width: 30px !important;
+                height: 30px !important;
+                font-size: 14px !important;
+            }
+            
+            .stat-value {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="image.png" alt="Nexora Logo" class="logo">
+        
+        <a href="home.html" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </a>
+        
+        <a href="invite.html" class="nav-item">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Invite</span>
+        </a>
+        
+        <a href="wallet.html" class="nav-item">
+            <span class="nav-icon">💰</span>
+            <span class="nav-text">Wallet</span>
+        </a>
+        
+        <a href="profile.html" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Profile</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="page-title">Dashboard</h1>
+            <a href="notification.html" class="notification-icon">
+                <span>🔔</span>
+                <div class="notification-badge">3</div>
+            </a>
+        </div>
+
+        <!-- Mining Card -->
+        <div class="mining-card">
+            <div class="card-header">
+                <div class="balance-section">
+                    <div class="balance-label">Total Balance</div>
+                    <div class="balance-amount"><span id="totalBalance">0</span> <span class="balance-unit">NRC</span></div>
+                </div>
+                <div class="mining-ratio">
+                    <div class="ratio-label">Mining Ratio</div>
+                    <div class="ratio-value">100 NRC / 12h</div>
+                </div>
+            </div>
+
+            <div class="timer-section">
+                <div class="timer">
+                    <div class="timer-label">Mining Timer</div>
+                    <div class="timer-value" id="timer">12:00:00</div>
+                </div>
+            </div>
+
+            <button class="mining-btn" id="miningBtn">Start Mining</button>
+            <div class="mining-status" id="miningStatus">Click to start mining</div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⛏️</div>
+                <div class="stat-label">Total Balance</div>
+                <div class="stat-value"><span id="totalBalanceStat">0</span> NRC</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-label">Mining Sessions</div>
+                <div class="stat-value" id="miningSessions">0</div>
+                <div class="stat-time" id="lastMiningTime">-</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-label">Daily Average</div>
+                <div class="stat-value"><span id="dailyAverage">0</span> NRC</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">⛏️</div>
+        <span class="notification-text">Mining Started Successfully</span>
+    </div>
+
+    <script>
+        // Mining variables
+        let isMining = false;
+        let timerInterval = null;
+        let totalSeconds = 12 * 60 * 60; // 12 hours in seconds
+        let remainingSeconds = totalSeconds;
+        let totalBalance = 0;
+        let totalMined = 0;
+        let miningSessions = 0;
+        let lastMiningTime = null;
+        let miningHistory = [];
+
+        // DOM elements
+        const miningBtn = document.getElementById('miningBtn');
+        const timerDisplay = document.getElementById('timer');
+        const miningStatus = document.getElementById('miningStatus');
+        const totalBalanceDisplay = document.getElementById('totalBalance');
+        const totalBalanceStatDisplay = document.getElementById('totalBalanceStat');
+        const miningSessionsDisplay = document.getElementById('miningSessions');
+        const dailyAverageDisplay = document.getElementById('dailyAverage');
+        const lastMiningTimeDisplay = document.getElementById('lastMiningTime');
+
+        // Format time as HH:MM:SS
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Update timer display
+        function updateTimer() {
+            timerDisplay.textContent = formatTime(remainingSeconds);
+        }
+
+        // Start mining
+        function startMining() {
+            if (isMining) return;
+            
+            isMining = true;
+            miningBtn.disabled = true;
+            miningBtn.textContent = 'Mining in Progress...';
+            miningStatus.textContent = 'Mining in progress...';
+            miningStatus.classList.add('active');
+            
+            // Show notification
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+            
+            timerInterval = setInterval(() => {
+                remainingSeconds--;
+                updateTimer();
+                
+                if (remainingSeconds <= 0) {
+                    completeMining();
+                }
+            }, 1000);
+        }
+
+        // Complete mining
+        function completeMining() {
+            clearInterval(timerInterval);
+            isMining = false;
+            
+            // Add 100 NRC to balance
+            totalBalance += 100;
+            totalMined += 100;
+            miningSessions++;
+            lastMiningTime = new Date().toLocaleString();
+            
+            // Add to mining history for daily average calculation
+            const today = new Date().toDateString();
+            miningHistory.push({
+                date: today,
+                amount: 100,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Calculate daily average (last 7 days)
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            const recentMining = miningHistory.filter(entry => 
+                new Date(entry.timestamp) >= sevenDaysAgo
+            );
+            const totalRecent = recentMining.reduce((sum, entry) => sum + entry.amount, 0);
+            const dailyAvg = recentMining.length > 0 ? Math.round(totalRecent / 7) : 0;
+            
+            // Update displays
+            totalBalanceDisplay.textContent = totalBalance;
+            totalBalanceStatDisplay.textContent = totalBalance;
+            miningSessionsDisplay.textContent = miningSessions;
+            lastMiningTimeDisplay.textContent = lastMiningTime;
+            dailyAverageDisplay.textContent = dailyAvg;
+            
+            // Reset timer
+            remainingSeconds = totalSeconds;
+            updateTimer();
+            
+            // Reset button
+            miningBtn.disabled = false;
+            miningBtn.textContent = 'Start Mining';
+            miningStatus.textContent = 'Mining completed! 100 NRC added to your balance.';
+            miningStatus.classList.remove('active');
+            
+            // Save to localStorage
+            saveMiningData();
+        }
+
+        // Save mining data to localStorage
+        function saveMiningData() {
+            const miningData = {
+                totalBalance,
+                totalMined,
+                miningSessions,
+                lastMiningTime,
+                remainingSeconds,
+                isMining,
+                miningHistory,
+                lastUpdated: new Date().toISOString()
+            };
+            localStorage.setItem('nexoraMiningData', JSON.stringify(miningData));
+        }
+
+        // Load mining data from localStorage
+        function loadMiningData() {
+            const savedData = localStorage.getItem('nexoraMiningData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                totalBalance = data.totalBalance || 0;
+                totalMined = data.totalMined || 0;
+                miningSessions = data.miningSessions || 0;
+                lastMiningTime = data.lastMiningTime || null;
+                remainingSeconds = data.remainingSeconds || totalSeconds;
+                isMining = data.isMining || false;
+                miningHistory = data.miningHistory || [];
+                
+                // Calculate daily average (last 7 days)
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                const recentMining = miningHistory.filter(entry => 
+                    new Date(entry.timestamp) >= sevenDaysAgo
+                );
+                const totalRecent = recentMining.reduce((sum, entry) => sum + entry.amount, 0);
+                const dailyAvg = recentMining.length > 0 ? Math.round(totalRecent / 7) : 0;
+                
+                // Update displays
+                totalBalanceDisplay.textContent = totalBalance;
+                totalBalanceStatDisplay.textContent = totalBalance;
+                miningSessionsDisplay.textContent = miningSessions;
+                lastMiningTimeDisplay.textContent = lastMiningTime || '-';
+                dailyAverageDisplay.textContent = dailyAvg;
+                updateTimer();
+                
+                // If mining was in progress, continue it
+                if (isMining) {
+                    miningBtn.disabled = true;
+                    miningBtn.textContent = 'Mining in Progress...';
+                    miningStatus.textContent = 'Mining in progress...';
+                    miningStatus.classList.add('active');
+                    
+                    timerInterval = setInterval(() => {
+                        remainingSeconds--;
+                        updateTimer();
+                        
+                        if (remainingSeconds <= 0) {
+                            completeMining();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        // Event listener for mining button
+        miningBtn.addEventListener('click', startMining);
+
+        // Load data on page load
+        loadMiningData();
+    </script>
+    <script src="internet-check.js"></script>
+</body>
+</html>

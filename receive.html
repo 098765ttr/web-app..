@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Receive NRC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="responsive.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="image2.png" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #1a1a2e;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-btn span {
+            font-size: 20px;
+        }
+
+        /* Receive Card */
+        .receive-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .receive-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .receive-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 36px;
+        }
+
+        .receive-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .receive-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .wallet-address-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .wallet-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .wallet-address {
+            font-size: 14px;
+            color: #1a1a2e;
+            font-weight: 600;
+            word-break: break-all;
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 2px dashed #e9ecef;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .copy-btn, .share-btn {
+            flex: 1;
+            padding: 14px;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+        }
+
+        .copy-btn::before, .share-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .copy-btn:hover, .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:hover {
+            box-shadow: 0 8px 25px rgba(15, 52, 96, 0.3);
+        }
+
+        .share-btn:hover {
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .copy-btn:hover::before, .share-btn:hover::before {
+            left: 100%;
+        }
+
+        .copy-btn:active, .share-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px !important;
+            }
+
+            .button-group {
+                flex-direction: column !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px !important;
+            }
+            
+            .page-title {
+                font-size: 22px !important;
+            }
+            
+            .receive-card {
+                padding: 20px !important;
+                border-radius: 20px !important;
+            }
+            
+            .receive-icon {
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 30px !important;
+            }
+            
+            .receive-title {
+                font-size: 20px !important;
+            }
+            
+            .receive-subtitle {
+                font-size: 14px !important;
+            }
+            
+            .wallet-address-section {
+                padding: 15px !important;
+                border-radius: 12px !important;
+            }
+            
+            .wallet-label {
+                font-size: 12px !important;
+            }
+            
+            .wallet-address {
+                font-size: 12px !important;
+                word-break: break-all !important;
+            }
+            
+            .copy-btn, .share-btn {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+            
+            .notification {
+                top: 10px !important;
+                right: 10px !important;
+                left: 10px !important;
+                padding: 12px 16px !important;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .main-content {
+                padding: 12px !important;
+            }
+            
+            .page-title {
+                font-size: 20px !important;
+            }
+            
+            .receive-card {
+                padding: 15px !important;
+                border-radius: 15px !important;
+            }
+            
+            .receive-icon {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 25px !important;
+            }
+            
+            .receive-title {
+                font-size: 18px !important;
+            }
+            
+            .receive-subtitle {
+                font-size: 12px !important;
+            }
+            
+            .wallet-address-section {
+                padding: 12px !important;
+                border-radius: 10px !important;
+            }
+            
+            .wallet-label {
+                font-size: 11px !important;
+            }
+            
+            .wallet-address {
+                font-size: 11px !important;
+            }
+            
+            .copy-btn, .share-btn {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <a href="wallet.html" class="back-btn">
+                <span>←</span>
+            </a>
+            <h1 class="page-title">Receive NRC</h1>
+            <div style="width: 45px;"></div>
+        </div>
+
+        <!-- Receive Card -->
+        <div class="receive-card">
+            <div class="receive-header">
+                <div class="receive-icon">📥</div>
+                <h2 class="receive-title">Receive NRC</h2>
+                <p class="receive-subtitle">Share your wallet address to receive NRC</p>
+            </div>
+            
+            <div class="wallet-address-section">
+                <div class="wallet-label">Your Wallet Address</div>
+                <div class="wallet-address" id="walletAddress">NXC3yLm7Qw8Rz6XvP2nJwTfHdGcBn5M</div>
+            </div>
+            
+            <div class="button-group">
+                <button class="copy-btn" onclick="copyAddress()">
+                    <span>📋</span> Copy
+                </button>
+                <button class="share-btn" onclick="shareAddress()">
+                    <span>📤</span> Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">✓</div>
+        <span class="notification-text">Address Copied Successfully</span>
+    </div>
+
+    <script>
+        // Copy wallet address
+        function copyAddress() {
+            const walletAddress = document.getElementById('walletAddress').textContent;
+            navigator.clipboard.writeText(walletAddress).then(() => {
+                showNotification('Address Copied Successfully');
+            });
+        }
+
+        // Share wallet address
+        function shareAddress() {
+            const walletAddress = document.getElementById('walletAddress').textContent;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Wallet Address',
+                    text: 'Here is my wallet address: ' + walletAddress,
+                    url: window.location.href
+                }).then(() => {
+                    showNotification('Address Shared Successfully');
+                }).catch((error) => {
+                    console.log('Error sharing:', error);
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                copyAddress();
+                showNotification('Address Copied to Clipboard');
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.querySelector('.notification-text').textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+    <script src="internet-check.js"></script>
+</body>
+</html>

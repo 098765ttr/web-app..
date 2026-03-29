@@ -1,0 +1,963 @@
+/* Universal Responsive Design for All Devices */
+/* Supports: iPhones, Androids, iPads, Tablets, MacBooks, PCs, Laptops */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive Container */
+.container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Responsive Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* Responsive Images */
+img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+}
+
+/* Responsive Buttons */
+button, .btn {
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Responsive Inputs */
+input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Responsive Links */
+a {
+    text-decoration: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile First Responsive Breakpoints */
+
+/* Extra Small Devices (Phones, 320px and up) */
+@media (max-width: 320px) {
+    html {
+        font-size: 12px;
+    }
+    
+    .container {
+        padding: 0 8px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Force all fixed width elements to be responsive */
+    [style*="width: 900px"],
+    [style*="width:800px"],
+    [style*="width: 700px"],
+    [style*="width:600px"],
+    [style*="width: 500px"],
+    [style*="width:400px"] {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    [style*="height: 550px"],
+    [style*="height:500px"],
+    [style*="height: 450px"],
+    [style*="height:400px"] {
+        height: auto !important;
+        min-height: 100vh !important;
+    }
+}
+
+/* Small Devices (Phones, 375px and up) */
+@media (max-width: 375px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .container {
+        padding: 0 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Force all fixed width elements to be responsive */
+    [style*="width: 900px"],
+    [style*="width:800px"],
+    [style*="width: 700px"],
+    [style*="width:600px"],
+    [style*="width: 500px"],
+    [style*="width:400px"] {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    [style*="height: 550px"],
+    [style*="height:500px"],
+    [style*="height: 450px"],
+    [style*="height:400px"] {
+        height: auto !important;
+        min-height: 100vh !important;
+    }
+}
+
+/* Medium Devices (Phones, 480px and up) */
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .container {
+        padding: 0 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Force all fixed width elements to be responsive */
+    [style*="width: 900px"],
+    [style*="width:800px"],
+    [style*="width: 700px"],
+    [style*="width:600px"],
+    [style*="width: 500px"],
+    [style*="width:400px"] {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    [style*="height: 550px"],
+    [style*="height:500px"],
+    [style*="height: 450px"],
+    [style*="height:400px"] {
+        height: auto !important;
+        min-height: 100vh !important;
+    }
+    
+    /* Mobile specific adjustments */
+    .left-side, .right-side {
+        width: 100% !important;
+        flex: none !important;
+    }
+    
+    .left-side {
+        padding: 20px !important;
+    }
+    
+    .right-side {
+        padding: 20px !important;
+    }
+    
+    .welcome-text {
+        font-size: 20px !important;
+    }
+    
+    .tagline {
+        font-size: 12px !important;
+    }
+    
+    .login-title {
+        font-size: 18px !important;
+    }
+    
+    .login-subtitle {
+        font-size: 12px !important;
+    }
+    
+    .logo {
+        width: 80px !important;
+        height: 80px !important;
+    }
+}
+
+/* Tablets (768px and up) */
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+    
+    .container {
+        padding: 0 20px;
+        max-width: 720px;
+    }
+}
+
+/* Large Devices (Laptops, 1024px and up) */
+@media (min-width: 1024px) {
+    html {
+        font-size: 16px;
+    }
+    
+    .container {
+        padding: 0 30px;
+        max-width: 960px;
+    }
+}
+
+/* Extra Large Devices (Desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+    
+    .container {
+        padding: 0 40px;
+        max-width: 1140px;
+    }
+}
+
+/* XXL Devices (Large Desktops, 1400px and up) */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+    }
+}
+
+/* Responsive Sidebar */
+.sidebar {
+    width: 80px;
+    transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px !important;
+    }
+    
+    .nav-text {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 50px !important;
+    }
+    
+    .nav-icon {
+        font-size: 20px;
+    }
+}
+
+/* Responsive Main Content */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px !important;
+    }
+}
+
+/* Responsive Cards */
+.card {
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    .card {
+        border-radius: 20px !important;
+        padding: 20px !important;
+        margin-bottom: 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        border-radius: 15px !important;
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+    }
+}
+
+/* Responsive Buttons */
+.btn {
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        padding: 12px 16px !important;
+        border-radius: 10px !important;
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        padding: 10px 14px !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+    }
+}
+
+/* Responsive Inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    padding: 14px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .input-group {
+        margin-bottom: 15px !important;
+    }
+    
+    .input-group label {
+        font-size: 12px !important;
+        margin-bottom: 6px !important;
+    }
+    
+    .input-wrapper input,
+    .input-wrapper select {
+        padding: 12px 12px !important;
+        border-radius: 8px !important;
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .input-group {
+        margin-bottom: 12px !important;
+    }
+    
+    .input-group label {
+        font-size: 11px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .input-wrapper input,
+    .input-wrapper select {
+        padding: 10px 10px !important;
+        border-radius: 6px !important;
+        font-size: 12px !important;
+    }
+}
+
+/* Responsive Grid */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.col {
+    flex: 1;
+    padding: 0 15px;
+}
+
+@media (max-width: 768px) {
+    .row {
+        margin: 0 -10px !important;
+    }
+    
+    .col {
+        padding: 0 10px !important;
+    }
+}
+
+/* Responsive Flexbox */
+.flex {
+    display: flex;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-15 {
+    gap: 15px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .gap-10 {
+        gap: 8px !important;
+    }
+    
+    .gap-15 {
+        gap: 12px !important;
+    }
+    
+    .gap-20 {
+        gap: 15px !important;
+    }
+}
+
+/* Responsive Text */
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+@media (max-width: 480px) {
+    .text-left-mobile {
+        text-align: left;
+    }
+    
+    .text-center-mobile {
+        text-align: center;
+    }
+}
+
+/* Responsive Spacing */
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-30 { margin-bottom: 30px; }
+.p-10 { padding: 10px; }
+.p-20 { padding: 20px; }
+.p-30 { padding: 30px; }
+
+@media (max-width: 768px) {
+    .mt-10 { margin-top: 8px !important; }
+    .mt-20 { margin-top: 15px !important; }
+    .mt-30 { margin-top: 20px !important; }
+    .mb-10 { margin-bottom: 8px !important; }
+    .mb-20 { margin-bottom: 15px !important; }
+    .mb-30 { margin-bottom: 20px !important; }
+    .p-10 { padding: 8px !important; }
+    .p-20 { padding: 15px !important; }
+    .p-30 { padding: 20px !important; }
+}
+
+/* Responsive Display */
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
+
+.d-flex {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .d-md-none {
+        display: none;
+    }
+    
+    .d-md-block {
+        display: block;
+    }
+    
+    .d-md-flex {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .d-sm-none {
+        display: none;
+    }
+    
+    .d-sm-block {
+        display: block;
+    }
+    
+    .d-sm-flex {
+        display: flex;
+    }
+}
+
+/* Responsive Width */
+.w-100 {
+    width: 100%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+@media (max-width: 768px) {
+    .w-md-100 {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .w-sm-100 {
+        width: 100% !important;
+    }
+}
+
+/* Responsive Overflow */
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+.overflow-scroll {
+    overflow: scroll;
+}
+
+/* Responsive Position */
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+/* Responsive Z-Index */
+.z-1 {
+    z-index: 1;
+}
+
+.z-10 {
+    z-index: 10;
+}
+
+.z-100 {
+    z-index: 100;
+}
+
+.z-1000 {
+    z-index: 1000;
+}
+
+/* Responsive Border Radius */
+.rounded {
+    border-radius: 10px;
+}
+
+.rounded-lg {
+    border-radius: 20px;
+}
+
+.rounded-full {
+    border-radius: 50%;
+}
+
+/* Responsive Shadow */
+.shadow {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Transition */
+.transition {
+    transition: all 0.3s ease;
+}
+
+/* Responsive Cursor */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Responsive User Select */
+.select-none {
+    user-select: none;
+}
+
+/* Responsive Touch Action */
+.touch-manipulation {
+    touch-action: manipulation;
+}
+
+/* Responsive Overflow Scroll */
+.scroll-smooth {
+    scroll-behavior: smooth;
+}
+
+/* Responsive Safe Area */
+.safe-area-top {
+    padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-left {
+    padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-right {
+    padding-right: env(safe-area-inset-right);
+}
+
+/* Responsive Landscape Mode */
+@media (orientation: landscape) and (max-height: 500px) {
+    .landscape-hidden {
+        display: none;
+    }
+    
+    .landscape-scroll {
+        overflow-y: auto;
+    }
+}
+
+/* Responsive Portrait Mode */
+@media (orientation: portrait) {
+    .portrait-hidden {
+        display: none;
+    }
+}
+
+/* Responsive High DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .high-dpi-text {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Responsive Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .dark-mode-auto {
+        background-color: #1a1a2e;
+        color: white;
+    }
+}
+
+/* Responsive Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .reduced-motion {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* Responsive Print */
+@media print {
+    .print-hidden {
+        display: none;
+    }
+    
+    .print-visible {
+        display: block;
+    }
+}
+
+/* Mobile-specific overrides for all pages */
+@media (max-width: 480px) {
+    /* Force flex containers to stack on mobile */
+    .container,
+    [style*="display: flex"] {
+        flex-direction: column !important;
+    }
+    
+    /* Make all fixed width elements responsive */
+    [style*="width: 900px"],
+    [style*="width:800px"],
+    [style*="width: 700px"],
+    [style*="width:600px"],
+    [style*="width: 500px"],
+    [style*="width:400px"],
+    [style*="width: 350px"],
+    [style*="width:300px"] {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Make all fixed height elements responsive */
+    [style*="height: 550px"],
+    [style*="height:500px"],
+    [style*="height: 450px"],
+    [style*="height:400px"],
+    [style*="height: 350px"],
+    [style*="height:300px"] {
+        height: auto !important;
+        min-height: auto !important;
+    }
+    
+    /* Reduce font sizes for mobile */
+    [style*="font-size: 28px"] {
+        font-size: 20px !important;
+    }
+    
+    [style*="font-size: 24px"] {
+        font-size: 18px !important;
+    }
+    
+    [style*="font-size: 20px"] {
+        font-size: 16px !important;
+    }
+    
+    [style*="font-size: 18px"] {
+        font-size: 14px !important;
+    }
+    
+    [style*="font-size: 16px"] {
+        font-size: 14px !important;
+    }
+    
+    [style*="font-size: 15px"] {
+        font-size: 13px !important;
+    }
+    
+    [style*="font-size: 14px"] {
+        font-size: 12px !important;
+    }
+    
+    /* Reduce padding for mobile */
+    [style*="padding: 40px"] {
+        padding: 20px !important;
+    }
+    
+    [style*="padding: 30px"] {
+        padding: 15px !important;
+    }
+    
+    [style*="padding: 25px"] {
+        padding: 12px !important;
+    }
+    
+    [style*="padding: 20px"] {
+        padding: 10px !important;
+    }
+    
+    /* Reduce margins for mobile */
+    [style*="margin-bottom: 30px"] {
+        margin-bottom: 15px !important;
+    }
+    
+    [style*="margin-bottom: 25px"] {
+        margin-bottom: 12px !important;
+    }
+    
+    [style*="margin-bottom: 20px"] {
+        margin-bottom: 10px !important;
+    }
+    
+    [style*="margin-top: 30px"] {
+        margin-top: 15px !important;
+    }
+    
+    [style*="margin-top: 25px"] {
+        margin-top: 12px !important;
+    }
+    
+    [style*="margin-top: 20px"] {
+        margin-top: 10px !important;
+    }
+    
+    /* Reduce border radius for mobile */
+    [style*="border-radius: 20px"] {
+        border-radius: 12px !important;
+    }
+    
+    [style*="border-radius: 15px"] {
+        border-radius: 10px !important;
+    }
+    
+    [style*="border-radius: 12px"] {
+        border-radius: 8px !important;
+    }
+    
+    [style*="border-radius: 10px"] {
+        border-radius: 6px !important;
+    }
+    
+    /* Reduce box shadow for mobile */
+    [style*="box-shadow: 0 20px 60px"] {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    [style*="box-shadow: 0 10px 40px"] {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    /* Make images responsive */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Make tables responsive */
+    table {
+        width: 100% !important;
+        display: block !important;
+        overflow-x: auto !important;
+    }
+    
+    /* Make forms responsive */
+    form {
+        width: 100% !important;
+    }
+    
+    /* Make buttons full width on mobile */
+    button, .btn, .login-btn, .signup-btn {
+        width: 100% !important;
+    }
+    
+    /* Make inputs full width on mobile */
+    input, select, textarea {
+        width: 100% !important;
+    }
+}
+
+/* Extra small devices (phones, 320px and below) */
+@media (max-width: 320px) {
+    html {
+        font-size: 11px;
+    }
+    
+    [style*="font-size: 28px"] {
+        font-size: 18px !important;
+    }
+    
+    [style*="font-size: 24px"] {
+        font-size: 16px !important;
+    }
+    
+    [style*="font-size: 20px"] {
+        font-size: 14px !important;
+    }
+    
+    [style*="font-size: 18px"] {
+        font-size: 13px !important;
+    }
+    
+    [style*="font-size: 16px"] {
+        font-size: 12px !important;
+    }
+    
+    [style*="font-size: 15px"] {
+        font-size: 11px !important;
+    }
+    
+    [style*="font-size: 14px"] {
+        font-size: 10px !important;
+    }
+    
+    [style*="padding: 40px"] {
+        padding: 15px !important;
+    }
+    
+    [style*="padding: 30px"] {
+        padding: 12px !important;
+    }
+    
+    [style*="padding: 25px"] {
+        padding: 10px !important;
+    }
+    
+    [style*="padding: 20px"] {
+        padding: 8px !important;
+    }
+}

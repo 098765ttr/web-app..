@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Chat with Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="responsive.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="image2.png" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #a0a0a0;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-text {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Chat Header */
+        .chat-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+
+        .admin-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .admin-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .admin-status {
+            font-size: 12px;
+            color: #a0a0a0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+        }
+
+        .status-dot.offline {
+            background: #dc3545;
+        }
+
+        /* Chat Messages */
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.admin {
+            background: white;
+            color: #1a1a2e;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .message.user .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Message Ticks */
+        .message-ticks {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        .message.user .message-ticks {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .message.user .message-ticks.seen {
+            color: #4fc3f7;
+        }
+
+        .message-seen {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        .message.user .message-seen {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .message.user .message-seen.seen {
+            color: #4fc3f7;
+        }
+
+        /* Chat Input */
+        .chat-input-container {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8f9fa;
+            border-radius: 25px;
+            padding: 10px 15px;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            color: #495057;
+            outline: none;
+        }
+
+        .chat-input::placeholder {
+            color: #adb5bd;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .photo-btn {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+        }
+
+        .photo-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .camera-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+        }
+
+        .camera-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px !important;
+            }
+
+            .nav-text {
+                display: block !important;
+                font-size: 8px !important;
+            }
+
+            .chat-header {
+                padding: 15px !important;
+            }
+
+            .admin-avatar {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 18px !important;
+            }
+
+            .admin-name {
+                font-size: 14px !important;
+            }
+
+            .admin-status {
+                font-size: 11px !important;
+            }
+
+            .chat-messages {
+                padding: 15px !important;
+            }
+
+            .message {
+                max-width: 85% !important;
+                font-size: 13px !important;
+            }
+
+            .chat-input-container {
+                padding: 12px 15px !important;
+            }
+
+            .chat-input-wrapper {
+                padding: 8px 12px !important;
+            }
+
+            .action-btn {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 14px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                flex-direction: column !important;
+            }
+            
+            .sidebar {
+                width: 100% !important;
+                flex-direction: row !important;
+                padding: 10px 0 !important;
+                gap: 15px !important;
+                justify-content: center !important;
+            }
+            
+            .logo {
+                width: 40px !important;
+                height: 40px !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .nav-item {
+                padding: 8px !important;
+            }
+            
+            .nav-icon {
+                font-size: 20px !important;
+            }
+            
+            .main-content {
+                height: calc(100vh - 60px) !important;
+            }
+            
+            .chat-header {
+                padding: 12px !important;
+            }
+            
+            .back-btn {
+                width: 35px !important;
+                height: 35px !important;
+            }
+            
+            .admin-avatar {
+                width: 35px !important;
+                height: 35px !important;
+                font-size: 16px !important;
+            }
+            
+            .admin-name {
+                font-size: 13px !important;
+            }
+            
+            .admin-status {
+                font-size: 10px !important;
+            }
+            
+            .chat-messages {
+                padding: 12px !important;
+            }
+            
+            .message {
+                max-width: 90% !important;
+                font-size: 12px !important;
+                padding: 10px 14px !important;
+            }
+            
+            .chat-input-container {
+                padding: 10px 12px !important;
+            }
+            
+            .chat-input-wrapper {
+                padding: 6px 10px !important;
+            }
+            
+            .chat-input {
+                font-size: 13px !important;
+            }
+            
+            .action-btn {
+                width: 30px !important;
+                height: 30px !important;
+                font-size: 13px !important;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .sidebar {
+                gap: 10px !important;
+                padding: 8px 0 !important;
+            }
+            
+            .logo {
+                width: 35px !important;
+                height: 35px !important;
+            }
+            
+            .nav-icon {
+                font-size: 18px !important;
+            }
+            
+            .chat-header {
+                padding: 10px !important;
+            }
+            
+            .back-btn {
+                width: 32px !important;
+                height: 32px !important;
+            }
+            
+            .admin-avatar {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 14px !important;
+            }
+            
+            .admin-name {
+                font-size: 12px !important;
+            }
+            
+            .admin-status {
+                font-size: 9px !important;
+            }
+            
+            .chat-messages {
+                padding: 10px !important;
+            }
+            
+            .message {
+                font-size: 11px !important;
+                padding: 8px 12px !important;
+            }
+            
+            .chat-input-container {
+                padding: 8px 10px !important;
+            }
+            
+            .chat-input-wrapper {
+                padding: 5px 8px !important;
+            }
+            
+            .chat-input {
+                font-size: 12px !important;
+            }
+            
+            .action-btn {
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 12px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="image.png" alt="Nexora Logo" class="logo">
+        
+        <a href="home.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </a>
+        
+        <a href="invite.html" class="nav-item">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Invite</span>
+        </a>
+        
+        <a href="wallet.html" class="nav-item active">
+            <span class="nav-icon">💰</span>
+            <span class="nav-text">Wallet</span>
+        </a>
+        
+        <a href="profile.html" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Profile</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <a href="wallet.html" class="back-btn">
+                <span>←</span>
+            </a>
+            <div class="admin-info">
+                <div class="admin-avatar">👨‍💼</div>
+                <div class="admin-details">
+                    <div class="admin-name">Admin Support</div>
+                    <div class="admin-status">
+                        <span class="status-dot" id="statusDot"></span>
+                        <span id="statusText">Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message admin">
+                <div>Hello! Welcome to Nexora Support. How can I help you today?</div>
+                <div class="message-time">10:30 AM</div>
+            </div>
+            <div class="message user">
+                <div>Hi, I have a question about my wallet.</div>
+                <div class="message-time">10:32 AM</div>
+            </div>
+            <div class="message admin">
+                <div>Sure! I'd be happy to help. What would you like to know about your wallet?</div>
+                <div class="message-time">10:33 AM</div>
+            </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Type your message...">
+                <div class="input-actions">
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this)">
+                    <input type="file" id="videoInput" accept="video/*" style="display: none;" onchange="handleVideoUpload(this)">
+                    <button class="action-btn photo-btn" onclick="document.getElementById('photoInput').click()" title="Send Photo">
+                        📷
+                    </button>
+                    <button class="action-btn camera-btn" onclick="document.getElementById('videoInput').click()" title="Send Video">
+                        🎥
+                    </button>
+                    <button class="action-btn send-btn" onclick="sendMessage()" title="Send Message">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check admin status (simulated)
+        function checkAdminStatus() {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            
+            // Simulate random online/offline status
+            const isOnline = Math.random() > 0.3;
+            
+            if (isOnline) {
+                statusDot.classList.remove('offline');
+                statusText.textContent = 'Online';
+            } else {
+                statusDot.classList.add('offline');
+                statusText.textContent = 'Offline';
+            }
+        }
+
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // Simulate admin response after 1-2 seconds
+                setTimeout(() => {
+                    const responses = [
+                        "Thank you for your message. Our team will get back to you shortly.",
+                        "I understand. Let me check that for you.",
+                        "That's a great question! Here's what I can tell you...",
+                        "I'm here to help. Could you provide more details?",
+                        "Thanks for reaching out. We appreciate your patience."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, 'admin');
+                }, 1000 + Math.random() * 1000);
+            }
+        }
+
+        // Handle photo upload
+        function handlePhotoUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    addMessageWithImage(e.target.result, 'user', '📷 Photo');
+                    
+                    setTimeout(() => {
+                        addMessage('Thank you for sharing the photo. Our team will review it.', 'admin');
+                    }, 1000);
+                };
+                reader.readAsDataURL(file);
+            }
+            input.value = '';
+        }
+
+        // Handle video upload
+        function handleVideoUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    addMessageWithVideo(e.target.result, 'user', '🎥 Video');
+                    
+                    setTimeout(() => {
+                        addMessage('Video received. We\'ll look into this right away.', 'admin');
+                    }, 1000);
+                };
+                reader.readAsDataURL(file);
+            }
+            input.value = '';
+        }
+
+        // Add message with image
+        function addMessageWithImage(imageSrc, type, caption) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = `
+                    <div style="margin-bottom: 8px;">${caption}</div>
+                    <img src="${imageSrc}" style="max-width: 100%; border-radius: 8px; display: block;">
+                    <div class="message-time">${timeString}<span class="message-ticks">✓✓</span></div>
+                    <div class="message-seen">Sent</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate admin seeing the message after 2 seconds
+                setTimeout(() => {
+                    const ticks = messageDiv.querySelector('.message-ticks');
+                    const seenText = messageDiv.querySelector('.message-seen');
+                    if (ticks && seenText) {
+                        ticks.classList.add('seen');
+                        seenText.textContent = 'Seen';
+                        seenText.classList.add('seen');
+                    }
+                }, 2000);
+            } else {
+                messageDiv.innerHTML = `
+                    <div style="margin-bottom: 8px;">${caption}</div>
+                    <img src="${imageSrc}" style="max-width: 100%; border-radius: 8px; display: block;">
+                    <div class="message-time">${timeString}</div>
+                `;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // Add message with video
+        function addMessageWithVideo(videoSrc, type, caption) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = `
+                    <div style="margin-bottom: 8px;">${caption}</div>
+                    <video src="${videoSrc}" controls style="max-width: 100%; border-radius: 8px; display: block;"></video>
+                    <div class="message-time">${timeString}<span class="message-ticks">✓✓</span></div>
+                    <div class="message-seen">Sent</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate admin seeing the message after 2 seconds
+                setTimeout(() => {
+                    const ticks = messageDiv.querySelector('.message-ticks');
+                    const seenText = messageDiv.querySelector('.message-seen');
+                    if (ticks && seenText) {
+                        ticks.classList.add('seen');
+                        seenText.textContent = 'Seen';
+                        seenText.classList.add('seen');
+                    }
+                }, 2000);
+            } else {
+                messageDiv.innerHTML = `
+                    <div style="margin-bottom: 8px;">${caption}</div>
+                    <video src="${videoSrc}" controls style="max-width: 100%; border-radius: 8px; display: block;"></video>
+                    <div class="message-time">${timeString}</div>
+                `;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // Add message to chat
+        function addMessage(text, type) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = `
+                    <div>${text}</div>
+                    <div class="message-time">${timeString}<span class="message-ticks">✓✓</span></div>
+                    <div class="message-seen">Sent</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate admin seeing the message after 2 seconds
+                setTimeout(() => {
+                    const ticks = messageDiv.querySelector('.message-ticks');
+                    const seenText = messageDiv.querySelector('.message-seen');
+                    if (ticks && seenText) {
+                        ticks.classList.add('seen');
+                        seenText.textContent = 'Seen';
+                        seenText.classList.add('seen');
+                    }
+                }, 2000);
+            } else {
+                messageDiv.innerHTML = `
+                    <div>${text}</div>
+                    <div class="message-time">${timeString}</div>
+                `;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // Send message on Enter key
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Check admin status on page load
+        checkAdminStatus();
+        
+        // Check admin status every 30 seconds
+        setInterval(checkAdminStatus, 30000);
+    </script>
+    <script src="internet-check.js"></script>
+</body>
+</html>

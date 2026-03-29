@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Personal Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="responsive.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="image2.png" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #1a1a2e;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-btn span {
+            font-size: 20px;
+        }
+
+        /* Detail Card */
+        .detail-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .detail-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .detail-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 36px;
+        }
+
+        .detail-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .detail-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #495057;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .input-group label span {
+            font-size: 12px;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #495057;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-wrapper input::placeholder {
+            color: #adb5bd;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px !important;
+            }
+            
+            .page-title {
+                font-size: 22px !important;
+            }
+            
+            .detail-card {
+                padding: 20px !important;
+                border-radius: 20px !important;
+            }
+            
+            .detail-icon {
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 30px !important;
+            }
+            
+            .detail-title {
+                font-size: 20px !important;
+            }
+            
+            .detail-subtitle {
+                font-size: 14px !important;
+            }
+            
+            .input-group {
+                margin-bottom: 15px !important;
+            }
+            
+            .input-group label {
+                font-size: 12px !important;
+            }
+            
+            .input-wrapper input,
+            .input-wrapper select {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+            
+            .submit-btn {
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .main-content {
+                padding: 12px !important;
+            }
+            
+            .page-title {
+                font-size: 20px !important;
+            }
+            
+            .detail-card {
+                padding: 15px !important;
+                border-radius: 15px !important;
+            }
+            
+            .detail-icon {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 25px !important;
+            }
+            
+            .detail-title {
+                font-size: 18px !important;
+            }
+            
+            .detail-subtitle {
+                font-size: 12px !important;
+            }
+            
+            .input-group {
+                margin-bottom: 12px !important;
+            }
+            
+            .input-group label {
+                font-size: 11px !important;
+            }
+            
+            .input-wrapper input,
+            .input-wrapper select {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+            
+            .submit-btn {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <a href="kyc.html" class="back-btn">
+                <span>←</span>
+            </a>
+            <h1 class="page-title">Personal Details</h1>
+            <div style="width: 45px;"></div>
+        </div>
+
+        <!-- Detail Card -->
+        <div class="detail-card">
+            <div class="detail-header">
+                <div class="detail-icon">📝</div>
+                <h2 class="detail-title">Personal Information</h2>
+                <p class="detail-subtitle">Please provide your personal details</p>
+            </div>
+            
+            <form id="detailForm">
+                <div class="input-group">
+                    <label for="fullName">1️⃣ Full Name <span>👉 User ka real naam</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" id="fullName" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="email">2️⃣ Email Address <span>👉 Already signup me hota hai</span></label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" placeholder="Enter email" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="phone">3️⃣ Phone Number 📱 <span>👉 Verification aur contact ke liye</span></label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="phone" placeholder="Enter phone number" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="country">4️⃣ Country 🌍 <span>👉 User kis country ka hai</span></label>
+                    <div class="input-wrapper">
+                        <select id="country" required>
+                            <option value="">Select Country</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="United States">United States</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="France">France</option>
+                            <option value="India">India</option>
+                            <option value="China">China</option>
+                            <option value="Japan">Japan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="province">🔹 Province</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="province" placeholder="Enter province" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="city">🔹 City</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="city" placeholder="Enter city" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="dateOfBirth">🔹 Date of Birth</label>
+                    <div class="input-wrapper">
+                        <input type="date" id="dateOfBirth" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="gender">🔹 Gender</label>
+                    <div class="input-wrapper">
+                        <select id="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <span>✓</span> Save Details
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">✓</div>
+        <span class="notification-text">Details Saved Successfully</span>
+    </div>
+
+    <script>
+        // Load saved details and auto-fill email from signup
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-fill email from signup
+            const signupEmail = localStorage.getItem('signupEmail');
+            if (signupEmail) {
+                document.getElementById('email').value = signupEmail;
+            }
+
+            // Load saved details
+            const savedDetails = localStorage.getItem('kyc_details');
+            if (savedDetails) {
+                const details = JSON.parse(savedDetails);
+                document.getElementById('fullName').value = details.fullName || '';
+                document.getElementById('email').value = details.email || signupEmail || '';
+                document.getElementById('phone').value = details.phone || '';
+                document.getElementById('country').value = details.country || '';
+                document.getElementById('province').value = details.province || '';
+                document.getElementById('city').value = details.city || '';
+                document.getElementById('dateOfBirth').value = details.dateOfBirth || '';
+                document.getElementById('gender').value = details.gender || '';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('detailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const details = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                country: document.getElementById('country').value,
+                province: document.getElementById('province').value,
+                city: document.getElementById('city').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                gender: document.getElementById('gender').value
+            };
+            
+            // Save details
+            localStorage.setItem('kyc_details', JSON.stringify(details));
+            localStorage.setItem('kyc_detail_completed', 'true');
+            
+            // Show notification
+            showNotification('Details Saved Successfully');
+            
+            // Redirect to KYC page after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'kyc.html';
+            }, 2000);
+        });
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.querySelector('.notification-text').textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+    <script src="internet-check.js"></script>
+</body>
+</html>
